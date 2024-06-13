@@ -10,13 +10,13 @@ export default {
 			<div v-if="workers.length === 0">No workers available.</div>
 			<div v-else>
 				<hr/>
-					<MyButton>normal</MyButton>
-					<MyButton type="danger"
-										@click="toggleLabel">{{label}}</MyButton>
-					<MyButton type="success">success</MyButton>
-					<MyButton type="info">info</MyButton>
-					<MyButton :disabled="true">disabled</MyButton>
-					<MyButton @click="callback">lalala</MyButton>
+					<my-button>normal</my-button>
+					<my-button type="danger"
+										@click="toggleLabel">{{label}}</my-button>
+					<my-button type="success">success</my-button>
+					<my-button type="info">info</my-button>
+					<my-button :disabled="true">disabled</my-button>
+					<my-button @click="callback">lalala</my-button>
 				<hr/>
 				<input v-model="searchString"
 				       placeholder="search"
