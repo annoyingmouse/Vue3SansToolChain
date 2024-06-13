@@ -2,18 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
     <title>Vue3 Test</title>
-    <link rel="icon" href="data:;base64,=">
-    <style scoped>
-      th { cursor: pointer; }
-      .arrow { color: gray; }
-      .active { color: black; }
-    </style>
+    <link rel="icon"
+          href="data:;base64,=">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css"
+          type="text/css">
+    <script src="https://unpkg.com/vue@3.0.4"></script>
+    <script src="src/main.js" type="module"></script>
   </head>
   <body>
-    <script src="https://unpkg.com/vue@3"></script>
+
     <div id="app"></div>
-    <script type="module" src="js/App.js"></script>
+    <script type="modulepreload"
+            src="./src/components/App.js"></script>
+    <script type="modulepreload"
+            src="./src/components/MyButton.js"></script>
   </body>
 </html>

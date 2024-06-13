@@ -1,20 +1,26 @@
 import { v4 as uuidv4 } from "https://cdn.skypack.dev/uuid";
-import { MyButton } from "../js/MyButton.js";
 
-Vue.createApp({
-	components: {
-		MyButton
-	},
+import MyButton from "./MyButton.js";
+
+export default {
+	name: "App",
 	template: `
 		<div>
 			<h1>Hello {{name}}</h1>
 			<div v-if="workers.length === 0">No workers available.</div>
 			<div v-else>
+				<hr/>
+					<MyButton>normal</MyButton>
+					<MyButton type="danger"
+										@click="toggleLabel">{{label}}</MyButton>
+					<MyButton type="success">success</MyButton>
+					<MyButton type="info">info</MyButton>
+					<MyButton :disabled="true">disabled</MyButton>
+					<MyButton @click="callback">lalala</MyButton>
+				<hr/>
 				<input v-model="searchString"
 				       placeholder="search"
 				       class="mb-1">
-				<my-button type="danger"
-									 v-on:click="toggleLabel">{{label}}</my-button>
 				<table>
 					<thead>
 						<tr>
@@ -57,7 +63,8 @@ Vue.createApp({
 			order: "ASC",
 			headers: [],
 			workers: [],
-			label: 'danger'
+			label: "danger",
+			disabled: true,
 		};
 	},
 	computed: {
@@ -93,6 +100,9 @@ Vue.createApp({
 
 			return filteredWorkers;
 		},
+	},
+	components: {
+		MyButton,
 	},
 	methods: {
 		setSortColumn(column) {
@@ -143,7 +153,7 @@ Vue.createApp({
 		},
 		addStyling() {
 			const style = `
-				#${this.uuid}	{
+				#dom_${this.uuid}	{
 					& th {
 						cursor: pointer;
 						user-select: none;
@@ -155,24 +165,29 @@ Vue.createApp({
 						}
 					}
 				}
-			`
+			`;
 			const sheet = new CSSStyleSheet();
 			sheet.replaceSync(style);
-			document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]
-			this.$el.id = this.uuid;
+			if (document.adoptedStyleSheets.length === 0) {
+				document.adoptedStyleSheets = [sheet];
+			} else {
+				document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+			}
+			this.$el.id = `dom_${this.uuid}`;
 		},
-		toggleLabel: function(e) {
-			console.log(e.target.tagName);
-			if (this.label == 'danger') {
+		toggleLabel: function (e) {
+			if (this.label == "danger") {
 				this.label = "danger-changed";
 			} else {
 				this.label = "danger";
 			}
-			//console.log(this.label);
-		}
+		},
+		callback: function () {
+			alert("llalalala");
+		},
 	},
-  mounted() {
+	mounted() {
 		this.getWorkers();
 		this.addStyling();
 	},
-}).mount("#app");
+};

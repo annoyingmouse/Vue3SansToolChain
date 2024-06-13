@@ -1,6 +1,6 @@
-import App from './components/App.js';
+import App from "./components/App.js";
 
 const app = Vue.createApp({
-  render: () => Vue.h(App),
+	render: () => Vue.h(App),
 });
-app.mount('#app');
+app.mount("#app");
