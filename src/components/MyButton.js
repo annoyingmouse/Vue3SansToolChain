@@ -32,18 +32,18 @@ export default {
 					border-radius: 4px;
 					font-size: 14px;
 					cursor: pointer;
-  				font-family: '微软雅黑',arail;
+  				font-family: '微软雅黑',Arial,Helvetica,sans-serif;
 					&.danger {
 						background-color: #ff4949;
-						color: #fff;
+						color: #FFFFFF;
 					}
 					&.success {
 						background-color: #13ce66;
-						color: #fff;
+						color: #FFFFFF;
 					}
 					&.info {
 						background-color: #50bfff;
-						color: #fff;
+						color: #FFFFFF;
 					}
 					&[disabled]{
 						cursor: not-allowed;
