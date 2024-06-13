@@ -1,43 +1,63 @@
-Vue.createApp({
-	template: `
+import { v4 as uuidv4 } from "https://cdn.skypack.dev/uuid";
+import { MyButton } from "../js/MyButton.js";
 
-    <h1>Hello {{name}}</h1>
-    <div v-if="workers.length === 0">No workers available.</div>
-    <input v-model="searchString" placeholder="search" class="mb-1">
-    <div v-else>
-      <table>
-        <thead>
-          <tr>
-            <th v-for="header in headers" @click="setSortColumn(header.key)">
-              {{ header.value }}
-              <span class="arrow" :class="{ active: this.sortColumn === header.key && this.order === 'ASC'}">
-                &#8593;
-              </span>
-              <span class="arrow" :class="{ active: this.sortColumn === header.key && this.order === 'DESC'}">
-                &#8595;
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="worker in filteredWorkers">
-            <td>{{worker.name}}</td>
-            <td>{{worker.position}}</td>
-            <td>{{worker.office}}</td>
-            <td>{{worker.age}}</td>
-          </tr>
-        </tbody>
-      </table>
+Vue.createApp({
+	components: {
+		MyButton
+	},
+	template: `
+		<div>
+			<h1>Hello {{name}}</h1>
+			<div v-if="workers.length === 0">No workers available.</div>
+			<div v-else>
+				<input v-model="searchString"
+				       placeholder="search"
+				       class="mb-1">
+				<my-button type="danger"
+									 v-on:click="toggleLabel">{{label}}</my-button>
+				<table>
+					<thead>
+						<tr>
+							<th v-for="header in headers"
+							    v-on:click="setSortColumn(header.key)">
+								{{ header.value }}
+								<span class="arrow"
+								      :class="{
+								        active: this.sortColumn === header.key && this.order === 'ASC'
+								      }">
+									&#8593;
+								</span>
+								<span class="arrow"
+								      :class="{
+								        active: this.sortColumn === header.key && this.order === 'DESC'
+								      }">
+									&#8595;
+								</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="worker in filteredWorkers">
+							<td>{{worker.name}}</td>
+							<td>{{worker.position}}</td>
+							<td>{{worker.office}}</td>
+							<td>{{worker.age}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
     </div>
   `,
 	data() {
 		return {
+			uuid: uuidv4(),
 			name: "Dominic",
 			searchString: "",
 			sortColumn: "",
 			order: "ASC",
 			headers: [],
 			workers: [],
+			label: 'danger'
 		};
 	},
 	computed: {
@@ -121,8 +141,38 @@ Vue.createApp({
 			this.headers = headers;
 			this.workers = workers;
 		},
+		addStyling() {
+			const style = `
+				#${this.uuid}	{
+					& th {
+						cursor: pointer;
+						user-select: none;
+						& .arrow {
+							color: gray;
+						}
+						& .active {
+							color: black;
+						}
+					}
+				}
+			`
+			const sheet = new CSSStyleSheet();
+			sheet.replaceSync(style);
+			document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]
+			this.$el.id = this.uuid;
+		},
+		toggleLabel: function(e) {
+			console.log(e.target.tagName);
+			if (this.label == 'danger') {
+				this.label = "danger-changed";
+			} else {
+				this.label = "danger";
+			}
+			//console.log(this.label);
+		}
 	},
-	mounted() {
+  mounted() {
 		this.getWorkers();
+		this.addStyling();
 	},
 }).mount("#app");
